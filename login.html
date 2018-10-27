@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>The Pages Login</title>
+
+        <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+
+        <script>
+            const {
+                UserPasswordAuthProviderClient
+            } = stitch;
+
+            // Initialize the App Client
+            const client = stitch.Stitch.initializeDefaultAppClient("sandbox-ybfyu");
+            console.log("client initialized")
+
+            const emailPassClient = client.auth
+            .getProviderClient(UserPasswordAuthProviderClient.factory);
+
+            function initialize(){
+
+            }
+
+            function register(){
+
+                const useremail = document.getElementById("email").value;
+                const userpassword = document.getElementById("password").value;
+
+                console.log(useremail,userpassword);
+
+
+                emailPassClient.registerWithEmail(useremail, userpassword)
+                .then(() => {
+                    console.log("Successfully sent account confirmation email!");
+                })
+                .catch(err => {
+                    console.log("Error registering new user:", err);
+                });
+            }
+        
+        </script>
+
+    </head>
+
+    <body onload="initialize()">
+        <h1>Register With Email:</h1>
+
+        <input type="email" id="email">
+        <input type="password" id="password">
+        <input type="submit" onclick="register()">
+
+    </body>
+</html>

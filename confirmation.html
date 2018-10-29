@@ -1,36 +1,41 @@
 <html>
-    <head>
-        <title>The Pages Confirmation</title>
 
-        <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+<head>
+    <title>The Pages (Confirmation)</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+
+    <script>
         
-        <script>
+        const {
+            Stitch,
+            UserPasswordAuthProviderClient
+        } = stitch;
 
-            const {
-                Stitch,
-                UserPasswordAuthProviderClient
-            } = stitch;
+        Stitch.initializeDefaultAppClient("thepages-qufuu");
 
-            const client = Stitch.initializeDefaultAppClient("sandbox-ybfyu");
-            // Parse the URL query parameters
-            const url = window.location.search;
-            const params = new URLSearchParams(url);
-            const token = params.get('token');
-            const tokenId = params.get('tokenId');
+        // Parse the URL query parameters
+        const url = window.location.search;
+        const params = new URLSearchParams(url);
+        const token = params.get('token');
+        const tokenId = params.get('tokenId');
 
+        function confirm() {
             // Confirm the user's email/password account
-            const emailPassClient = client.auth
-            .getProviderClient(UserPasswordAuthProviderClient.factory);
+            const emailPassClient = Stitch.defaultAppClient.auth
+                .getProviderClient(UserPasswordAuthProviderClient.factory);
+            console.log("confirmed");
+            return emailPassClient.confirmUser(token, tokenId);
+        }
+    </script>
 
-            emailPassClient.confirmUser(token, tokenId);
-
-        </script>
-
-    </head>
-
-
-    <body>
+</head>
 
 
-    </body>
+<body onload="confirm()">
+
+
+</body>
+
 </html>

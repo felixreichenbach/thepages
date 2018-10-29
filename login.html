@@ -1,52 +1,71 @@
 <html>
-    <head>
-        <title>The Pages Login</title>
 
-        <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+<head>
+    <title>The Pages (Login)</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.8/stitch.js"></script>
+    <script>
 
-        <script>
-            const {
-                UserPasswordAuthProviderClient
-            } = stitch;
+        const {
+            Stitch,
+            UserPasswordCredential
+        } = stitch;
 
-            // Initialize the App Client
-            const client = stitch.Stitch.initializeDefaultAppClient("sandbox-ybfyu");
-            console.log("client initialized")
+        // Initialize the App Client
+        const stitchClient = Stitch.initializeDefaultAppClient("thepages-qufuu");
 
-            const emailPassClient = client.auth
-            .getProviderClient(UserPasswordAuthProviderClient.factory);
+        // Authenticate an application user based on the submitted information
+        async function handleLogin() {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const credential = new UserPasswordCredential(email, password);
 
-            function initialize(){
+            try {
 
+                await stitchClient.auth.loginWithCredential(credential);
+                const user = stitchClient.auth.user;
+                //showLoggedInState();
+                console.log(`Logged in as: ${user.profile.data.email}`)
+            } catch (e) {
+                handleError(e)
             }
+        }
 
-            function register(){
+        function handleLogout() {
+            console.log(`Logged Out: ${stitchClient.auth.user.profile.data.email}`)
+            stitchClient.auth.logout();
+            console.log(`Logged Out: ${stitchClient.auth.user.profile.data.email}`)
+        }
 
-                const useremail = document.getElementById("email").value;
-                const userpassword = document.getElementById("password").value;
+        function handleRegistration() {
+            console.log("TBD Register")
+        }
 
-                console.log(useremail,userpassword);
+        function handleError(err) {
+            const errType = err.message || "Error!"
+            const msg = ({
+                "invalid username/password": "Invalid username or password was entered. Please try again.",
+                "name already in use": "An account already exists for that email."
+            })[errType] || errType
+            console.log(err.message);
+            document.getElementById("errorMessage").innerHTML = err.message;
+        }
+    </script>
 
+</head>
 
-                emailPassClient.registerWithEmail(useremail, userpassword)
-                .then(() => {
-                    console.log("Successfully sent account confirmation email!");
-                })
-                .catch(err => {
-                    console.log("Error registering new user:", err);
-                });
-            }
-        
-        </script>
+<body>
+    <h1>Login With Email:</h1>
+    <form>
+        Email:
+        <input type="email" id="loginEmail"></div><br>
+        Password:
+        <input type="password" id="loginPassword"><br>
+        <button type="button" onclick="handleLogin()">Login</button>
+        <button type="button" onclick="handleLogout()">Logout</button>
+        <button type="button" onclick="handleRegistration()">Register</button><br>
+        <p id="errorMessage"></p>
+    </form>
+</body>
 
-    </head>
-
-    <body onload="initialize()">
-        <h1>Register With Email:</h1>
-
-        <input type="email" id="email">
-        <input type="password" id="password">
-        <input type="submit" onclick="register()">
-
-    </body>
 </html>

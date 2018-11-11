@@ -1,31 +1,108 @@
+<!doctype html>
 <html>
 
-    <head>
-        <title>The Pages</title>
-        <link rel="stylesheet" type="text/css" href="/stylesheet.css">
-        
-        <script>
-            function toLoginPage(){
-                window.location.href = "/login.html";
-            }
+<head>
+    <!-- Base Stitch Browser SDK -->
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.0/stitch.js"></script>
+    <title>The Pages</title>
+</head>
 
-            function toLogoutPage(){
-                window.location.href = "/logout.html";
-            }
+<body onload="onLoad()">
+    <div class="quickstart-container" id="main">
 
-            function toRegistrationPage(){
-                window.location.href = "/register.html";
-            }
+        <div id="info">
+            <div id="success"></div>
+            <div id="error"></div>
+        </div>
+        <div id="logged-in" hidden>
+            <button class="btn btn-success" onclick="handleLogout()">
+                Log Out
+            </button>
+        </div>
+        <div id="finished-registration" hidden>
+            <button class="btn btn-success" onclick="showControlPanel()">
+                Go Back
+            </button>
+        </div>
+        <div id="control-panel" hidden>
+            <h4>Stitch Authentication Provider</h4>
+            <button class="btn btn-success" onclick="showRegistrationForm()">
+                Create a New Stitch Account
+            </button>
+            <button class="btn btn-success" onclick="showResendConfirmationForm()">
+                Send a New Confirmation Email
+            </button>
+            <br>
+            <button class="btn btn-success" onclick="showLoginForm()">
+                Use MongoDB Stich Authentication
+            </button>
+            <button class="btn btn-success" onclick="handleGoogleLogin()">
+                Use Google Authentication
+            </button>
 
-        </script>
+        </div>
 
-    </head>
+        <div id="resend-confirmation" hidden>
+            <h4>Send a New Confirmation Email</h4>
+            <label for="resend-confirmation-email">Email:</label>
+            <div class="input-group mb-1">
+                <input type="text" class="form-control" id="resend-confirmation-email" aria-label="resend-confirmation-email" />
+            </div>
 
-    <body>
-        <h1>Welcome to The Pages</h1>
-        <button type="button" onclick="toLoginPage()">Login</button>
-        <button type="button" onclick="toLogoutPage()">Logout</button>
-        <button type="button" onclick="toRegistrationPage()">Register</button>
-    </body>
+            <button class="btn btn-success" onclick="handleResendConfirmation()">
+                Re-Send Confirmation Email
+            </button>
+            <button class="btn btn-secondary" onclick="showControlPanel()">
+                Go Back
+            </button>
+
+        </div>
+
+        <div id="create-a-user" hidden>
+            <h4>Create Email/Password Account</h4>
+            <label for="create-a-user-email">Email:</label>
+            <div class="input-group mb-1">
+                <input type="text" class="form-control" id="create-a-user-email" aria-label="create-a-user-email" />
+            </div>
+
+            <label for="create-a-user-password">Password:</label>
+            <div class="input-group mb-2">
+                <input type="password" class="form-control" id="create-a-user-password" aria-label="create-a-user-password" />
+            </div>
+            <button class="btn btn-success" onclick="handleSignup()">
+                Create a New Account
+            </button>
+            <button class="btn btn-secondary" onclick="showControlPanel()">
+                Go Back
+            </button>
+        </div>
+
+
+
+        <div id="login" hidden>
+            <h4>Log In to Email/Password Account</h4>
+            <label for="login-email">Email:</label>
+            <div class="input-group mb-1">
+                <input type="text" class="form-control" id="login-email" aria-label="login-email" />
+            </div>
+
+            <label for="login-password">Password:</label>
+            <div class="input-group mb-2">
+                <input type="password" class="form-control" id="login-password" aria-label="login-password" />
+            </div>
+            <button class="btn btn-success" onclick="handleStitchLogin()">
+                Log In
+            </button>
+            <button class="btn btn-secondary" onclick="showControlPanel()">
+                Go Back
+            </button>
+        </div>
+
+
+
+    </div>
+    <!-- Load Website Logic -->
+    <script src="scripts.js"></script>
+</body>
 
 </html>

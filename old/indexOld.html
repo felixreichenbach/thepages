@@ -1,0 +1,31 @@
+<html>
+
+    <head>
+        <title>The Pages</title>
+        <link rel="stylesheet" type="text/css" href="/stylesheet.css">
+        
+        <script>
+            function toLoginPage(){
+                window.location.href = "/login.html";
+            }
+
+            function toLogoutPage(){
+                window.location.href = "/logout.html";
+            }
+
+            function toRegistrationPage(){
+                window.location.href = "/register.html";
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+        <h1>Welcome to The Pages</h1>
+        <button type="button" onclick="toLoginPage()">Login</button>
+        <button type="button" onclick="toLogoutPage()">Logout</button>
+        <button type="button" onclick="toRegistrationPage()">Register</button>
+    </body>
+
+</html>

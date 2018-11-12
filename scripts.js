@@ -2,6 +2,7 @@ const {
     Stitch,
     UserPasswordCredential,
     GoogleRedirectCredential,
+    FacebookRedirectCredential,
 
 } = stitch;
 
@@ -35,9 +36,19 @@ async function handleGoogleLogin() {
 
 }
 
+async function handleFacebookLogin() {
+    console.log("Work in progress!!")
+    if (!stitchClient.auth.isLoggedIn) {
+        const credential = new FacebookRedirectCredential();
+        //Stitch.defaultAppClient.auth.loginWithRedirect(credential);
+    }
+}
+
+
+
 function onLoad() {
 
-    if (stitchClient.auth.isLoggedIn){
+    if (stitchClient.auth.isLoggedIn) {
         showLoggedInState();
         displaySuccess(`Logged in as: ${stitchClient.auth.user.profile.data.email}`);
     }
@@ -49,7 +60,7 @@ function onLoad() {
                 displaySuccess(`Logged in as: ${stitchClient.auth.user.profile.data.email}`);
             }
         });
-    } 
+    }
     else {
         showControlPanel();
     }

@@ -27,7 +27,10 @@
             </button>
         </div>
         <div id="control-panel" hidden>
-            <h4>Stitch Authentication Provider</h4>
+            <h4>Stitch Authentication</h4>
+            <button class="btn btn-success" onclick="showLoginForm()">
+                Stitch Login
+            </button>
             <button class="btn btn-success" onclick="showRegistrationForm()">
                 Create a New Stitch Account
             </button>
@@ -35,13 +38,14 @@
                 Send a New Confirmation Email
             </button>
             <br>
-            <button class="btn btn-success" onclick="showLoginForm()">
-                Use MongoDB Stich Authentication
-            </button>
+            <h4>Google Authentication</h4>
             <button class="btn btn-success" onclick="handleGoogleLogin()">
-                Use Google Authentication
+                Google Login
             </button>
-
+            <h4>Facebook Authentication (WIP)</h4>
+            <button class="btn btn-success" onclick="handleFacebookLogin()">
+                Facebook Login
+            </button>
         </div>
 
         <div id="resend-confirmation" hidden>

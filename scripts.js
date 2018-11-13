@@ -37,10 +37,10 @@ async function handleGoogleLogin() {
 }
 
 async function handleFacebookLogin() {
-    console.log("Work in progress!!")
+
     if (!stitchClient.auth.isLoggedIn) {
         const credential = new FacebookRedirectCredential();
-        //Stitch.defaultAppClient.auth.loginWithRedirect(credential);
+        Stitch.defaultAppClient.auth.loginWithRedirect(credential);
     }
 }
 

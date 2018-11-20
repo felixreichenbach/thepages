@@ -1,5 +1,6 @@
 const {
     Stitch,
+    UserPasswordAuthProviderClient,
     UserPasswordCredential,
     GoogleRedirectCredential,
     FacebookRedirectCredential,
@@ -8,8 +9,53 @@ const {
 
 const stitchClient = Stitch.initializeDefaultAppClient("thepages-qufuu");
 
+// Get a MongoDB Service Client
+const mongodb = stitchClient.getServiceClient(
+    stitch.RemoteMongoClient.factory,
+    "mongodb-atlas"
+);
+// Get a reference to the database
+const db = mongodb.db("database");
 
-// Authenticate an application user based on the submitted information
+
+/*****
+*
+* Register a new and Authenticate a Stitch User
+*
+*/
+
+const emailPasswordClient = stitchClient.auth
+    .getProviderClient(UserPasswordAuthProviderClient.factory, "userpass");
+
+async function handleSignup() {
+    const email = registerEmailEl.value;
+    const password = registerPasswordEl.value;
+
+    try {
+
+        await emailPasswordClient.registerWithEmail(email, password)
+        showPostRegistrationState()
+        displaySuccess("Successfully registered. Check your inbox for a confirmation email.")
+
+    } catch (e) {
+        handleError(e)
+    }
+}
+
+async function handleResendConfirmation() {
+    const email = resendConfirmationEmailEl.value;
+    await emailPasswordClient.resendConfirmationEmail(email);
+    showControlPanel();
+}
+
+
+
+/*
+*
+* Authenticate an application user based on the submitted information
+*
+*/
+
 async function handleStitchLogin() {
     const email = loginEmailEl.value;
     const password = loginPasswordEl.value;
@@ -20,10 +66,11 @@ async function handleStitchLogin() {
         await stitchClient.auth.loginWithCredential(credential);
         const user = stitchClient.auth.user;
         showLoggedInState();
-        displaySuccess(`Logged in as: ${user.profile.data.email}`)
+        displaySuccess(`Logged in as: ${user.profile.data.email}`);
+
 
     } catch (e) {
-        handleError(e)
+        handleError(e);
     }
 }
 
@@ -45,12 +92,31 @@ async function handleFacebookLogin() {
 }
 
 
+/*
+*
+* Logout a User
+*
+*/
+
+async function handleLogout() {
+    await stitchClient.auth.logout();
+    location.reload();
+}
+
+
+
+/*
+*
+* Initialize after Page Load
+*
+*/
 
 function onLoad() {
 
     if (stitchClient.auth.isLoggedIn) {
         showLoggedInState();
         displaySuccess(`Logged in as: ${stitchClient.auth.user.profile.data.email}`);
+        displayRecords();
     }
     else if (stitchClient.auth.hasRedirectResult()) {
         stitchClient.auth.handleRedirectResult().then(user => {
@@ -58,6 +124,7 @@ function onLoad() {
             if (stitchClient.auth.isLoggedIn) {
                 showLoggedInState();
                 displaySuccess(`Logged in as: ${stitchClient.auth.user.profile.data.email}`);
+                displayRecords();
             }
         });
     }
@@ -67,16 +134,6 @@ function onLoad() {
 
 }
 
-async function handleLogout() {
-    await stitchClient.auth.logout();
-    showControlPanel();
-}
-
-async function handleResendConfirmation() {
-    const email = resendConfirmationEmailEl.value;
-    await emailPasswordClient.resendConfirmationEmail(email);
-    showControlPanel();
-}
 
 // DOM Element Variables
 const resendConfirmationEl = document.getElementById("resend-confirmation");
@@ -94,6 +151,52 @@ const postRegistrationEl = document.getElementById("finished-registration");
 
 const successEl = document.getElementById("success");
 const errorEl = document.getElementById("error");
+
+// 
+const inputForm = document.getElementById("input");
+const displayComments = document.getElementById("comments");
+const displayComment = document.getElementById("comment");
+const insertResultEl = document.getElementById("result");
+
+
+/*
+*
+* MongoDB Database Access
+*
+*/
+
+function insertRecord() {
+
+    const newInfo = document.getElementById("my-info");
+    if (newInfo.value != "") {
+        console.log("add comment", stitchClient.auth.user.id)
+        db.collection("collection")
+            .insertOne({ owner_id: stitchClient.auth.user.id, comment: newInfo.value })
+            .then(displayRecords());
+        newInfo.value = "";
+        insertResultEl.innerText = "Comment Successfully Added!";
+    }
+    else {
+        insertResultEl.innerText = "Please Enter a Comment!";
+    }
+}
+
+
+function displayRecords() {
+    db.collection("collection")
+        .find({}, { limit: 10 })
+        .asArray()
+        .then(docs => {
+            const html = docs.map(doc => `<div id="comment">${doc.comment}</div>`).join('');
+            document.getElementById("comments").innerHTML = html;
+        });
+}
+
+/*
+*
+* GUI Functions
+*
+*/
 
 
 // Notification Functions
@@ -125,13 +228,15 @@ function showLoginForm() {
 }
 
 function showControlPanel() {
-    clearNotifications()
+    clearNotifications();
     resendConfirmationEl.hidden = true;
     controlPanelEl.hidden = false;
     loginFormEl.hidden = true;
     registerFormEl.hidden = true;
     loggedInEl.hidden = true;
     postRegistrationEl.hidden = true;
+    inputForm.hidden = true;
+    displayComments.hidden = true;
 }
 function showResendConfirmationForm() {
     clearNotifications()
@@ -152,6 +257,8 @@ function showLoggedInState() {
     registerFormEl.hidden = true;
     loggedInEl.hidden = false;
     postRegistrationEl.hidden = true;
+    inputForm.hidden = false;
+    displayComments.hidden = false;
 }
 
 function showPostRegistrationState() {
@@ -162,13 +269,6 @@ function showPostRegistrationState() {
     registerFormEl.hidden = true;
     loggedInEl.hidden = true;
     postRegistrationEl.hidden = false;
-}
-
-function setPostRegistrationState() {
-    // Clear registration form inputs then hide the form
-    clearFields([registerEmailEl, registerPasswordEl]);
-    toggleHiddenElementById("create-a-user");
-    return Promise.resolve()
 }
 
 function handleError(err) {

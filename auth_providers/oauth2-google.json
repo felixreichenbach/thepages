@@ -1,0 +1,21 @@
+{
+    "id": "5c4796b43a71f11f49738365",
+    "name": "oauth2-google",
+    "type": "oauth2-google",
+    "config": {
+        "clientId": "740191766810-1th97ndujvheu1kjsp89rk555nclj0ps.apps.googleusercontent.com"
+    },
+    "secret_config": {
+        "clientSecret": "__oauth2-google_clientSecret"
+    },
+    "disabled": false,
+    "metadata_fields": [
+        {
+            "required": false,
+            "name": "email"
+        }
+    ],
+    "redirect_uris": [
+        "https://thepages-pgxap.mongodbstitch.com/"
+    ]
+}

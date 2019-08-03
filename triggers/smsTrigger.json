@@ -1,0 +1,18 @@
+{
+    "id": "5c505da630bd1dcfb7ee42c6",
+    "name": "smsTrigger",
+    "type": "DATABASE",
+    "config": {
+        "operation_types": [
+            "INSERT"
+        ],
+        "database": "messenger",
+        "collection": "messages",
+        "service_name": "thepages-atlas",
+        "match": {},
+        "full_document": true,
+        "unordered": false
+    },
+    "function_name": "sendSMS",
+    "disabled": false
+}

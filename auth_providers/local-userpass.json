@@ -1,0 +1,12 @@
+{
+    "id": "5c505e64b2e26fff5b99ede3",
+    "name": "local-userpass",
+    "type": "local-userpass",
+    "config": {
+        "confirmEmailSubject": "",
+        "emailConfirmationUrl": "http://thepages.schneefloeckli.net/confirmation.html",
+        "resetPasswordSubject": "",
+        "resetPasswordUrl": "http://thepages.schneefloeckli.net/resetpassword.html"
+    },
+    "disabled": true
+}

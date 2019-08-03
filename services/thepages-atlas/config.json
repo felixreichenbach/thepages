@@ -1,0 +1,10 @@
+{
+    "id": "5c479523cb38cc894509a331",
+    "name": "thepages-atlas",
+    "type": "mongodb-atlas",
+    "config": {
+        "clusterName": "ThePagesDev",
+        "wireProtocolEnabled": false
+    },
+    "version": 1
+}

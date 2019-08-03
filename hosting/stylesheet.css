@@ -1,0 +1,60 @@
+h4 {
+    font-family: arial, sans-serif;
+    color: green;
+}
+
+label {
+    font-family: arial, sans-serif;
+}
+
+.button {
+    background-color: white;
+    border: 2px, solid, green;
+    color: green;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+#error {
+    font-family: arial, sans-serif;
+    color : red;
+}
+
+#success {
+    font-family: arial, sans-serif;
+    color : green;
+}
+
+#user {
+    font-family: arial, sans-serif;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+th {
+    border: 1px solid green;
+    background-color: lightgreen;
+    color: green;
+    text-align: left;
+    padding: 4px;    
+}
+
+td {
+    border: 1px solid green;
+    text-align: left;
+    padding: 4px;
+}
+
+#messageCol {
+    width: 80%;
+}
+
+
+#recipientCol {
+    width: 20%;
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- Base Stitch Browser SDK -->
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.1.1/stitch.js"></script>
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <title>MongoDB Messenger</title>
+</head>
+
+<body onload="onLoad()">
+    <h4>Welcome to the MongoDB Messenger!</h4>
+    <div class="main-container" id="main">
+        <div id="login" hidden>
+            <h4>Authentication</h4>
+            <button class="button" onclick="handleFacebookLogin()">
+                Facebook Login
+            </button>
+            <button class="button" onclick="handleGoogleLogin()">
+                Google Login
+            </button>
+        </div>
+
+        <div id="logged-in">
+            <div id="user"></div>
+            <br>
+            <button class="button" onclick="handleLogout()">
+                Log Out
+            </button>
+        </div>
+
+        <div id="new-message">
+            <h4>Send New Message</h4>
+            <div class="input-text">
+                <label for="message">Message:</label>
+                <input type="text" id="message" />
+                <label for="recipient">Recipient:</label>
+                <input type="text" id="recipient" />
+            </div>
+            <br>
+            <button class="button" onclick="sendMessage()">
+                Send
+            </button>
+            <br>
+            <br>
+            <div id="info">
+                <div id="success"></div>
+                <div id="error"></div>
+            </div>
+        </div>
+
+        <div id="messageTable">
+            <h4>My Messages</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th id="messageCol">Message</th>
+                        <th id="recipientCol">Recipient</th>
+                    </tr>
+                </thead>
+                <tbody id="messages"></tbody>
+            </table>
+        </div>
+
+    </div>
+    <!-- Load Website Logic -->
+    <script src="stitchmessenger.js"></script>
+</body>
+
+</html>

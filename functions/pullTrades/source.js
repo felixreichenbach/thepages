@@ -1,12 +1,6 @@
 exports = function(arg){
 
-  const twilio = context.services.get("Twilio");
-  
-  twilio.send({
-    from: "+41798074681",
-    to: arg.fullDocument.recipient,
-    body: arg.fullDocument.message
-  });
+console.log('test');
 
 };
 

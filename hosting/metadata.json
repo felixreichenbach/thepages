@@ -1,0 +1,10 @@
+[
+    {
+      "path": "<File Resource Path>",
+      "attrs": [
+         ...,
+         <Attribute Definition>
+      ],
+    },
+    ...
+  ]
